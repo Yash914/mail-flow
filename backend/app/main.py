@@ -305,11 +305,17 @@ def send_campaign(request: CampaignRequest):
     if not PPT_PATH.exists():
         raise HTTPException(400, "Upload the official SIH PPT template in Settings first.")
 
+    # Only send to teams that have never been successfully contacted.
+    # Failed sends remain eligible for a later retry because last_contacted stays 'Never'.
     with connection() as conn:
-        rows = conn.execute("SELECT * FROM teams ORDER BY added_at").fetchall()
+        rows = conn.execute("""
+            SELECT * FROM teams
+            WHERE last_contacted IS NULL OR last_contacted = 'Never'
+            ORDER BY added_at
+        """).fetchall()
 
     if not rows:
-        raise HTTPException(400, "No registered teams are available.")
+        raise HTTPException(400, "No new or previously failed teams are waiting for email.")
 
     created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     with connection() as conn:
