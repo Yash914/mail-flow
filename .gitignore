@@ -6,10 +6,61 @@ __v0_jsx-dev-runtime.ts
 .v0-trash/
 .vercel/
 
-# Environment variables
-.env*.local
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+*.env
+backend/.env
+backend/.env.*
+!backend/.env.example
 
-# Common ignores
-node_modules
+# Node / Next.js
+node_modules/
 .next/
+out/
 .DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+backend/venv/
+backend/.venv/
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Generated databases and local application data
+*.db
+*.sqlite
+*.sqlite3
+backend/*.db
+backend/*.sqlite
+backend/*.sqlite3
+backend/storage/*
+!backend/storage/.gitkeep
+
+# Uploaded user files / registration data
+*.xlsx
+*.xls
+*.csv
+*.ppt
+*.pptx
+
+# Logs
+*.log
+logs/
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+*.swo
+Thumbs.db
